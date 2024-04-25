@@ -10,8 +10,9 @@ export interface StoreState {
   setTasks: (tasks: TaskType[]) => void;
   addTask: (task: TaskType) => void;
   editTask: (task: TaskType) => void;
-  removeTask: (id: string) => void;
+  toggleRemoveTask: (id: string) => void;
   finishTask: (id: string) => void;
+  resetAllDoneTasks: () => void
 }
 
 const useStore = create<StoreState>()(
@@ -21,6 +22,12 @@ const useStore = create<StoreState>()(
         tasks: [],
         selectedTask: null,
         setTasks: (tasks) => set(() => ({ tasks })),
+        
+        resetAllDoneTasks: () =>
+          set((state) => {
+            const updatedList = state.tasks.filter((item) => !item.isRemoved);
+            return { tasks: updatedList };
+          }),
 
         addTask: (newTask) =>
           set((state) => {
@@ -34,16 +41,27 @@ const useStore = create<StoreState>()(
             }
           }),
 
-        removeTask: (id) =>
-          set((state) => {
-            const updatedList = state.tasks.filter((item) => item.id !== id);
-            if (state.tasks.length === 1) {
-              return { tasks: updatedList, selectedTask: null };
-            } else {
+        // removeTask: (id) =>
+        //   set((state) => {
+        //     const updatedList = state.tasks.filter((item) => item.id !== id);
+        //     if (state.tasks.length === 1) {
+        //       return { tasks: updatedList, selectedTask: null };
+        //     } else {
               
+        //       return { tasks: updatedList };
+        //     }
+        //   }),
+
+          toggleRemoveTask: (id) =>
+            set((state) => {
+              const updatedList = state.tasks.map((item) => {
+                return item.id === id
+                  ? { ...item, isRemoved: !item.isRemoved }
+                  : item;
+              });
               return { tasks: updatedList };
-            }
-          }),
+            }),
+  
 
         editTask: (task) =>
           set((state) => {

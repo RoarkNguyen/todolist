@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import TodoList from "./page/TodoList";
-import About from "./page/About";
+import DoneTasks from "./page/DoneTasks";
 import { ChakraProvider } from "@chakra-ui/react";
 
 function App() {
@@ -9,7 +9,7 @@ function App() {
     <ChakraProvider>
       <Routes>
         <Route path="/" element={<TodoList />} />
-        <Route path="/about" element={<About />} />
+        <Route path="/done-tasks" element={<DoneTasks />} />
       </Routes>
     </ChakraProvider>
   );
