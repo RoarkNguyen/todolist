@@ -24,7 +24,7 @@ interface Props {
   href: string;
 }
 const Links = [
-  { name: "Demo", href: "/" },
+  { name: "Todolist", href: "/" },
   { name: "About", href: "/about" },
 ];
 

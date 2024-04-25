@@ -1,5 +1,6 @@
 import { SettingsIcon } from "@chakra-ui/icons";
 import {
+  Box,
   Checkbox,
   Flex,
   Menu,
@@ -13,6 +14,8 @@ import AddTask from "../components/AddTask";
 import EditTask from "../components/EditTask";
 import Layout from "../layout";
 import { TaskType } from "../types";
+import Pomodoro from "../components/Pomodoro";
+import useStore, { StoreState } from "../stores/use-store";
 
 let todoItems = [
   {
@@ -25,41 +28,26 @@ let todoItems = [
 ];
 
 export default function TodoList() {
-  const [listTask, setListTask] = useState(todoItems);
-
-  const finishItem = (id: string) => {
-    setListTask((prevState) => {
-      const updatedList = prevState.map((item) => {
-        return item.id === id ? { ...item, isFinish: !item.isFinish } : item;
-      });
-      return updatedList;
-    });
-  };
-
-  const addTask = (task: TaskType) => {
-    setListTask((pre) => [...pre, task]);
-  };
-
-  const editTask = (task: TaskType) => {
-    setListTask((prevState) => {
-      const updatedList = prevState.map((item) => {
-        return item.id === task.id ? task : item;
-      });
-      return updatedList;
-    });
-  };
-
-  const removeItem = (id: string) => {
-    setListTask((prevState) => {
-      const updatedList = prevState.filter((item) => item.id !== id);
-      return updatedList;
-    });
-  };
+  const {
+    tasks,
+    addTask,
+    editTask,
+    removeTask,
+    finishTask,
+    setSelectedTask,
+    selectedTask,
+  } = useStore();
+  console.log(selectedTask, "_selectedTask");
+  console.log(tasks, "_tasks");
 
   return (
     <Layout>
+      {/* {selectTask && <Pomodoro task={selectTask} />} */}
       <Flex flexDirection={"column"} gap="0.5rem">
-        {listTask.map((task) => {
+        {selectedTask && tasks.length > 0 && (
+          <Box textAlign={"center"}>{selectedTask.title}</Box>
+        )}
+        {tasks.map((task) => {
           return (
             <>
               <Flex
@@ -69,21 +57,23 @@ export default function TodoList() {
                 w="100%"
                 p={4}
                 color="#fff"
-                width={"300px"}
+                width={"400px"}
                 align={"center"}
                 rounded={8}
                 cursor={"pointer"}
                 borderLeft={"5px solid #d54747"}
+                borderRadius={"6px"}
                 _hover={{
                   borderLeft: "5px solid black",
                   transition: "0.25s",
                 }}
               >
-                <Flex gap={"1rem"}>
+                <Flex gap={"1rem"} align={"center"}>
                   <Checkbox
                     size="lg"
                     colorScheme="green"
-                    onChange={() => finishItem(task.id)}
+                    onChange={() => finishTask(task.id)}
+                    defaultChecked={task.isFinish}
                   ></Checkbox>
 
                   <Text
@@ -91,8 +81,10 @@ export default function TodoList() {
                     fontSize="md"
                     opacity={task.isFinish ? "0.7" : "1"}
                     fontWeight="semibold"
+                    noOfLines={1}
+                    onClick={() => setSelectedTask(task)}
                   >
-                    {task.title} {`${task.isFinish}`}
+                    {task.title}
                   </Text>
                 </Flex>
                 <Menu>
@@ -101,9 +93,12 @@ export default function TodoList() {
                   </MenuButton>
                   <MenuList color={"#000"}>
                     <MenuItem>
-                      <EditTask task={task} saveTask={editTask} />
+                      <EditTask
+                        task={task}
+                        saveTask={(task) => editTask(task)}
+                      />
                     </MenuItem>
-                    <MenuItem onClick={() => removeItem(task.id)}>
+                    <MenuItem onClick={() => removeTask(task.id)}>
                       Remove
                     </MenuItem>
                   </MenuList>
@@ -112,7 +107,7 @@ export default function TodoList() {
             </>
           );
         })}
-        <AddTask saveTask={addTask} />
+        <AddTask saveTask={(task) => addTask(task)} />
       </Flex>
     </Layout>
   );

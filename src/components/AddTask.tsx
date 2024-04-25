@@ -34,7 +34,8 @@ export default function AddTask({
       id,
       isRemoved: false,
       isFinish: false,
-      ...data,
+      title: data.title,
+      time: data.time ? data.time : 25,
     };
     saveTask(newTask);
     onClose();
@@ -49,6 +50,10 @@ export default function AddTask({
           onOpen();
           reset();
         }}
+        width={"400px"}
+        mt={"0.5rem"}
+        h={"56px"}
+        borderRadius={"6px"}
       >
         Add task
       </Button>
@@ -67,7 +72,7 @@ export default function AddTask({
                   variant="outline"
                   placeholder="Breathe the clean air"
                 />
-                <FormLabel htmlFor="time">Estimated time</FormLabel>
+                <FormLabel htmlFor="time">{`Estimated time (optional)`}</FormLabel>
                 <Input
                   type="number"
                   {...register("time")}
