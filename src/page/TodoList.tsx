@@ -4,25 +4,8 @@ import WorkingTask from "../components/WorkingTask";
 import Layout from "../layout";
 import useStore from "../stores/use-store";
 
-let todoItems = [
-  {
-    id: "1",
-    title: "This is the task 1",
-    time: 25,
-    isRemoved: false,
-    isFinish: false,
-  },
-];
-
 export default function TodoList() {
-  const {
-    tasks,
-    addTask,
-
-    selectedTask,
-  } = useStore();
-  console.log(selectedTask, "_selectedTask");
-  console.log(tasks, "_tasks");
+  const { tasks, addTask, selectedTask } = useStore();
 
   return (
     <Layout>
