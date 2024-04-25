@@ -5,19 +5,17 @@ import WorkingTask from "./WorkingTask";
 
 export default function TodoList() {
   const { tasks, addTask, selectedTask } = useStore();
-
+  const workingTasks = tasks.filter((task) => !task.isRemoved);
   return (
     <>
       {/* {selectTask && <Pomodoro task={selectTask} />} */}
       <Flex flexDirection={"column"} gap="0.5rem">
-        {selectedTask && tasks.length > 0 && (
+        {selectedTask && workingTasks.length > 0 && (
           <Box textAlign={"center"}>{selectedTask.title}</Box>
         )}
-        {tasks
-          .filter((task) => !task.isRemoved && task)
-          .map((task) => {
-            return <WorkingTask task={task} key={task.id} />;
-          })}
+        {workingTasks.map((task) => {
+          return <WorkingTask task={task} key={task.id} />;
+        })}
         <AddTask saveTask={(task) => addTask(task)} />
       </Flex>
     </>
