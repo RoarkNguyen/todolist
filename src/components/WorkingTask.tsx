@@ -34,7 +34,7 @@ export default function WorkingTask({ task }: { task: TaskType }) {
         transition: "0.25s",
       }}
     >
-      <Flex gap={"1rem"} align={"center"}>
+      <Flex gap={"1rem"} align={"center"} flex={"1"}>
         <Checkbox
           size="lg"
           colorScheme="green"
@@ -49,6 +49,7 @@ export default function WorkingTask({ task }: { task: TaskType }) {
           fontWeight="semibold"
           noOfLines={1}
           onClick={() => setSelectedTask(task)}
+          flex={"1"}
         >
           {task.title}
         </Text>
