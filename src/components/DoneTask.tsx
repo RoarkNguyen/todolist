@@ -3,8 +3,7 @@ import useStore from "../stores/use-store";
 import { TaskType } from "../types";
 
 export default function DoneTask({ task }: { task: TaskType }) {
-  const { editTask, toggleRemoveTask, finishTask, setSelectedTask } =
-    useStore();
+  const { setSelectedTask } = useStore();
 
   return (
     <Flex
