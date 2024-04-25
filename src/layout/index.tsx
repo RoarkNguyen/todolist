@@ -10,34 +10,33 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { ReactNode } from "react";
-import { useLocation } from "react-router-dom";
+import useStore from "../stores/use-store";
 
 interface Props {
   children: React.ReactNode;
-  href: string;
+  keyTab: string;
 }
 const Links = [
-  { name: "Todolist", href: "/" },
-  { name: "Done Tasks", href: "/done-tasks" },
+  { name: "Todolist", href: "/", keyTab: "working" },
+  { name: "Done Tasks", href: "/done-tasks", keyTab: "done" },
 ];
 
 const NavLink = (props: Props) => {
-  const { children, href } = props;
-  // const router = useRoutes()
-  const location = useLocation();
+  const { children, keyTab } = props;
+  const { tabSelected, setTabSelected } = useStore();
   return (
     <Box
-      as="a"
       fontWeight={"bold"}
       px={2}
       py={1}
       rounded={"md"}
-      color={location.pathname === href ? "#d54747" : "#000"}
+      cursor={"pointer"}
+      color={tabSelected === keyTab ? "#d54747" : "#000"}
       _hover={{
-        textDecoration: "none",
-        bg: useColorModeValue("gray.200", "gray.700"),
+        opacity: "0.7",
+        transition: "0.25s",
       }}
-      href={href}
+      onClick={() => setTabSelected(keyTab)}
       fontSize={"lg"}
     >
       {children}
@@ -66,7 +65,7 @@ export default function Layout({ children }: { children: ReactNode }) {
               display={{ base: "none", md: "flex" }}
             >
               {Links.map((link) => (
-                <NavLink href={link.href} key={link.name}>
+                <NavLink keyTab={link.keyTab} key={link.name}>
                   {link.name}
                 </NavLink>
               ))}

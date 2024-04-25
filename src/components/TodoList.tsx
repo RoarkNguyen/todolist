@@ -1,14 +1,13 @@
 import { Box, Flex } from "@chakra-ui/react";
-import AddTask from "../components/AddTask";
-import WorkingTask from "../components/WorkingTask";
-import Layout from "../layout";
 import useStore from "../stores/use-store";
+import AddTask from "./AddTask";
+import WorkingTask from "./WorkingTask";
 
 export default function TodoList() {
   const { tasks, addTask, selectedTask } = useStore();
 
   return (
-    <Layout>
+    <>
       {/* {selectTask && <Pomodoro task={selectTask} />} */}
       <Flex flexDirection={"column"} gap="0.5rem">
         {selectedTask && tasks.length > 0 && (
@@ -21,6 +20,6 @@ export default function TodoList() {
           })}
         <AddTask saveTask={(task) => addTask(task)} />
       </Flex>
-    </Layout>
+    </>
   );
 }

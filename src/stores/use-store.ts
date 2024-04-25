@@ -3,6 +3,7 @@ import { devtools, persist } from "zustand/middleware";
 import { TaskType } from "../types";
 
 export interface StoreState {
+  tabSelected: string;
   tasks: TaskType[];
   selectedTask?: TaskType | null;
 
@@ -13,6 +14,8 @@ export interface StoreState {
   toggleRemoveTask: (id: string) => void;
   finishTask: (id: string) => void;
   resetAllDoneTasks: () => void
+  setTabSelected: (keyTab: string) => void;
+
 }
 
 const useStore = create<StoreState>()(
@@ -20,8 +23,10 @@ const useStore = create<StoreState>()(
     persist(
       (set) => ({
         tasks: [],
+        tabSelected: "working",
         selectedTask: null,
         setTasks: (tasks) => set(() => ({ tasks })),
+        setTabSelected: (tab: string) => set(() => ({ tabSelected: tab })),
         
         resetAllDoneTasks: () =>
           set((state) => {
