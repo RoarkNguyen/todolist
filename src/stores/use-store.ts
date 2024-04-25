@@ -23,7 +23,7 @@ const useStore = create<StoreState>()(
     persist(
       (set) => ({
         tasks: [],
-        tabSelected: "working",
+        tabSelected: "tasks",
         selectedTask: null,
         setTasks: (tasks) => set(() => ({ tasks })),
         setTabSelected: (tab: string) => set(() => ({ tabSelected: tab })),

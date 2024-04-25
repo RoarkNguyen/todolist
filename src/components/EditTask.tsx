@@ -42,9 +42,9 @@ export default function EditTask({
 
   return (
     <>
-      <Text onClick={onOpen}>Edit</Text>
+      <Text onClick={onOpen}>Edit </Text>
 
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal size={["xs", "md"]} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
           <form onSubmit={handleSubmit(onSubmit)}>

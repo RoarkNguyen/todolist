@@ -7,9 +7,9 @@ export default function TodoList() {
   const { tasks, addTask, selectedTask } = useStore();
   const workingTasks = tasks.filter((task) => !task.isRemoved);
   return (
-    <>
+    <Box>
       {/* {selectTask && <Pomodoro task={selectTask} />} */}
-      <Flex flexDirection={"column"} gap="0.5rem">
+      <Flex align={"center"} flexDirection={"column"} gap="0.5rem">
         {selectedTask && workingTasks.length > 0 && (
           <Box textAlign={"center"}>{selectedTask.title}</Box>
         )}
@@ -18,6 +18,6 @@ export default function TodoList() {
         })}
         <AddTask saveTask={(task) => addTask(task)} />
       </Flex>
-    </>
+    </Box>
   );
 }

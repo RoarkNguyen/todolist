@@ -7,6 +7,6 @@ export default function Home() {
   const { tabSelected } = useStore();
 
   return (
-    <Layout>{tabSelected === "working" ? <TodoList /> : <DoneTasks />}</Layout>
+    <Layout>{tabSelected === "tasks" ? <TodoList /> : <DoneTasks />}</Layout>
   );
 }

@@ -10,7 +10,7 @@ export default function DoneTasks() {
       {doneTasks.length > 0 && (
         <Button
           onClick={resetAllDoneTasks}
-          width={"400px"}
+          width={[300, 400]}
           mt={"0.5rem"}
           h={"56px"}
           borderRadius={"6px"}

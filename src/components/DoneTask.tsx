@@ -12,7 +12,7 @@ export default function DoneTask({ task }: { task: TaskType }) {
       w="100%"
       p={4}
       color="#fff"
-      width={"400px"}
+      width={[300, 400]}
       align={"center"}
       rounded={8}
       cursor={"pointer"}

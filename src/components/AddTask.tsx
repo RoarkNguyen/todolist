@@ -1,5 +1,6 @@
 import {
   Button,
+  Flex,
   FormLabel,
   Input,
   Modal,
@@ -44,13 +45,13 @@ export default function AddTask({
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
-    <>
+    <Flex justify={"center"}>
       <Button
         onClick={() => {
           onOpen();
           reset();
         }}
-        width={"400px"}
+        width={[300, 400]}
         mt={"0.5rem"}
         h={"56px"}
         borderRadius={"6px"}
@@ -58,7 +59,7 @@ export default function AddTask({
         Add task
       </Button>
 
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal size={["xs", "md"]} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -98,6 +99,6 @@ export default function AddTask({
           </form>
         </ModalContent>
       </Modal>
-    </>
+    </Flex>
   );
 }

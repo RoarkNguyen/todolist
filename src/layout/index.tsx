@@ -1,14 +1,6 @@
 "use client";
 
-import { CloseIcon, HamburgerIcon } from "@chakra-ui/icons";
-import {
-  Box,
-  Flex,
-  HStack,
-  IconButton,
-  useColorModeValue,
-  useDisclosure,
-} from "@chakra-ui/react";
+import { Box, Flex, HStack, useColorModeValue } from "@chakra-ui/react";
 import { ReactNode } from "react";
 import useStore from "../stores/use-store";
 
@@ -17,8 +9,8 @@ interface Props {
   keyTab: string;
 }
 const Links = [
-  { name: "Todolist", href: "/", keyTab: "working" },
-  { name: "Done Tasks", href: "/done-tasks", keyTab: "done" },
+  { name: "Tasks", href: "/", keyTab: "tasks" },
+  { name: "Completed", href: "/completed", keyTab: "done" },
 ];
 
 const NavLink = (props: Props) => {
@@ -45,25 +37,12 @@ const NavLink = (props: Props) => {
 };
 
 export default function Layout({ children }: { children: ReactNode }) {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
   return (
     <>
       <Box bg={useColorModeValue("gray.100", "gray.900")} px={4}>
         <Flex h={16} alignItems={"center"} justifyContent={"center"}>
-          <IconButton
-            size={"md"}
-            icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
-            aria-label={"Open Menu"}
-            display={{ md: "none" }}
-            onClick={isOpen ? onClose : onOpen}
-          />
           <HStack spacing={8} alignItems={"center"}>
-            <HStack
-              as={"nav"}
-              spacing={4}
-              display={{ base: "none", md: "flex" }}
-            >
+            <HStack as={"nav"} spacing={4}>
               {Links.map((link) => (
                 <NavLink keyTab={link.keyTab} key={link.name}>
                   {link.name}
