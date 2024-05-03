@@ -4,45 +4,57 @@ import { TaskType } from "../types";
 
 export interface StoreState {
   tabSelected: string;
-  tasks: TaskType[];
+  workingTasks: TaskType[];
+  doneTasks: TaskType[];
   selectedTask?: TaskType | null;
 
   setSelectedTask: (task: TaskType) => void;
-  setTasks: (tasks: TaskType[]) => void;
+  setWorkingTasks: (tasks: TaskType[]) => void;
+  setDoneTasks: (tasks: TaskType[]) => void;
+
   addTask: (task: TaskType) => void;
   editTask: (task: TaskType) => void;
-  toggleRemoveTask: (id: string) => void;
+  toggleRemoveTask: (task: TaskType) => void;
   finishTask: (id: string) => void;
-  resetAllDoneTasks: () => void
+  resetAllDoneTasks: () => void;
   setTabSelected: (keyTab: string) => void;
-
 }
 
 const useStore = create<StoreState>()(
   devtools(
     persist(
       (set) => ({
-        tasks: [],
+        workingTasks: [],
+        doneTasks: [],
         tabSelected: "tasks",
         selectedTask: null,
-        setTasks: (tasks) => set(() => ({ tasks })),
+
+        setWorkingTasks: (tasks) =>
+          set(() => {
+            return { workingTasks: tasks };
+          }),
+
+        setDoneTasks: (tasks) =>
+          set(() => {
+            return { doneTasks: tasks };
+          }),
+
         setTabSelected: (tab: string) => set(() => ({ tabSelected: tab })),
-        
+
         resetAllDoneTasks: () =>
           set((state) => {
-            const updatedList = state.tasks.filter((item) => !item.isRemoved);
-            return { tasks: updatedList };
+            return { doneTasks: [] };
           }),
 
         addTask: (newTask) =>
           set((state) => {
-            if (state.tasks.length === 0) {
+            if (state.workingTasks.length === 0) {
               return {
-                tasks: [...state.tasks, newTask],
+                workingTasks: [...state.workingTasks, newTask],
                 selectedTask: newTask,
               };
             } else {
-              return { tasks: [...state.tasks, newTask] };
+              return { workingTasks: [...state.workingTasks, newTask] };
             }
           }),
 
@@ -52,38 +64,41 @@ const useStore = create<StoreState>()(
         //     if (state.tasks.length === 1) {
         //       return { tasks: updatedList, selectedTask: null };
         //     } else {
-              
+
         //       return { tasks: updatedList };
         //     }
         //   }),
 
-          toggleRemoveTask: (id) =>
-            set((state) => {
-              const updatedList = state.tasks.map((item) => {
-                return item.id === id
-                  ? { ...item, isRemoved: !item.isRemoved }
-                  : item;
-              });
-              return { tasks: updatedList };
-            }),
-  
+        toggleRemoveTask: (task) =>
+          set((state) => {
+            const updatedWorkingTask = state.workingTasks.filter(
+              (item) => item.id !== task.id
+            );
+            const updatedDoneTask = [...state.doneTasks, task];
+            console.log(updatedDoneTask,"_updatedDoneTask")
+
+            return {
+              workingTasks: updatedWorkingTask,
+              doneTasks: updatedDoneTask,
+            };
+          }),
 
         editTask: (task) =>
           set((state) => {
-            const updatedList = state.tasks.map((item) => {
+            const updatedList = state.workingTasks.map((item) => {
               return item.id === task.id ? task : item;
             });
-            return { tasks: updatedList };
+            return { workingTasks: updatedList };
           }),
 
         finishTask: (id) =>
           set((state) => {
-            const updatedList = state.tasks.map((item) => {
+            const updatedList = state.workingTasks.map((item) => {
               return item.id === id
                 ? { ...item, isFinish: !item.isFinish }
                 : item;
             });
-            return { tasks: updatedList };
+            return { workingTasks: updatedList };
           }),
 
         setSelectedTask: (task) => set(() => ({ selectedTask: task })),

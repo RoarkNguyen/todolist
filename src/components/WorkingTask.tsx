@@ -8,9 +8,9 @@ import {
   MenuList,
   Text,
 } from "@chakra-ui/react";
-import EditTask from "./EditTask";
 import useStore from "../stores/use-store";
 import { TaskType } from "../types";
+import EditTask from "./EditTask";
 
 export default function WorkingTask({ task }: { task: TaskType }) {
   const { editTask, toggleRemoveTask, finishTask, setSelectedTask } =
@@ -41,7 +41,6 @@ export default function WorkingTask({ task }: { task: TaskType }) {
           onChange={() => finishTask(task.id)}
           defaultChecked={task.isFinish}
         ></Checkbox>
-
         <Text
           as={task.isFinish ? "s" : "p"}
           fontSize="md"
@@ -62,7 +61,7 @@ export default function WorkingTask({ task }: { task: TaskType }) {
           <MenuItem>
             <EditTask task={task} saveTask={(task) => editTask(task)} />
           </MenuItem>
-          <MenuItem onClick={() => toggleRemoveTask(task.id)}>Done</MenuItem>
+          <MenuItem onClick={() => toggleRemoveTask(task)}>Done</MenuItem>
         </MenuList>
       </Menu>
     </Flex>
