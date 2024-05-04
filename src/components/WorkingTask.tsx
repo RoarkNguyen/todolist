@@ -56,7 +56,7 @@ export default function WorkingTask({ task }: { task: TaskType }) {
           flex={"1"}
           py="1.5rem"
         >
-          {task.title} {task.seconds}
+          {task.title}
         </Text>
       </Flex>
       <Menu>

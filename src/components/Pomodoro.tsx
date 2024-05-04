@@ -27,6 +27,7 @@ export default function Pomodoro({ selectedTask }: { selectedTask: TaskType }) {
 
       return () => clearInterval(intervalId);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timeLeft, isToggleStart]);
 
   useEffect(() => {
