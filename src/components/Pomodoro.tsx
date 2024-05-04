@@ -13,7 +13,6 @@ export default function Pomodoro({ selectedTask }: { selectedTask: TaskType }) {
   useEffect(() => {
     // exit early when we reach 0
     if (isToggleStart && timeLeft === 0) {
-      console.log("time  is up!", selectedTask.title);
       setToggleStart(false);
       finishTaskWhenTimeEnd();
       alert("End Time!");
