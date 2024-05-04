@@ -9,6 +9,7 @@ export interface StoreState {
   selectedTask?: TaskType | null;
 
   setSelectedTask: (task: TaskType) => void;
+  setTimeSelectedTask: (task: TaskType, secondsRemain: number) => void;
   setWorkingTasks: (tasks: TaskType[]) => void;
   setDoneTasks: (tasks: TaskType[]) => void;
 
@@ -17,6 +18,8 @@ export interface StoreState {
   toggleRemoveTask: (task: TaskType) => void;
   finishTask: (id: string) => void;
   resetAllDoneTasks: () => void;
+  doneAllTasks: () => void;
+  finishTaskWhenTimeEnd: () => void;
   setTabSelected: (keyTab: string) => void;
 }
 
@@ -44,6 +47,16 @@ const useStore = create<StoreState>()(
         resetAllDoneTasks: () =>
           set((state) => {
             return { doneTasks: [] };
+          }),
+
+        doneAllTasks: () =>
+          set((state) => {
+            const updatedDoneTask = [...state.doneTasks, ...state.workingTasks];
+
+            return {
+              workingTasks: [],
+              doneTasks: updatedDoneTask,
+            };
           }),
 
         addTask: (newTask) =>
@@ -75,7 +88,6 @@ const useStore = create<StoreState>()(
               (item) => item.id !== task.id
             );
             const updatedDoneTask = [...state.doneTasks, task];
-            console.log(updatedDoneTask,"_updatedDoneTask")
 
             return {
               workingTasks: updatedWorkingTask,
@@ -93,6 +105,7 @@ const useStore = create<StoreState>()(
 
         finishTask: (id) =>
           set((state) => {
+
             const updatedList = state.workingTasks.map((item) => {
               return item.id === id
                 ? { ...item, isFinish: !item.isFinish }
@@ -101,7 +114,28 @@ const useStore = create<StoreState>()(
             return { workingTasks: updatedList };
           }),
 
+          finishTaskWhenTimeEnd: () =>
+            set((state) => {
+  
+              const updatedList = state.workingTasks.map((item) => {
+                return state.selectedTask?.id === item.id
+                  ? { ...item, isFinish: true }
+                  : item;
+              });
+              return { workingTasks: updatedList };
+            }),
+
         setSelectedTask: (task) => set(() => ({ selectedTask: task })),
+        setTimeSelectedTask: (task, secondsRemain) =>
+          set((state) => {
+            const updatedWorkingTask = state.workingTasks.map((item) => {
+              return item.id === task.id
+                ? { ...item, seconds: secondsRemain }
+                : item;
+            });
+            return { workingTasks: updatedWorkingTask, selectedTask: { ...task, seconds: secondsRemain } }
+          }),
+
       }),
       { name: "store" }
     )

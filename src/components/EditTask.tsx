@@ -18,7 +18,7 @@ import { TaskType } from "../types";
 
 type InputsEditTask = {
   title: string;
-  time: number;
+  seconds: number;
 };
 
 export default function EditTask({
@@ -32,7 +32,8 @@ export default function EditTask({
   const onSubmit: SubmitHandler<InputsEditTask> = (data) => {
     const editTask = {
       ...task,
-      ...data,
+      title: data.title,
+      seconds: data.seconds * 60,
     };
     saveTask(editTask);
     onClose();
@@ -42,7 +43,9 @@ export default function EditTask({
 
   return (
     <>
-      <Text onClick={onOpen}>Edit </Text>
+      <Text w="full" onClick={onOpen}>
+        Edit{" "}
+      </Text>
 
       <Modal size={["xs", "md"]} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
@@ -61,9 +64,9 @@ export default function EditTask({
                 />
                 <FormLabel htmlFor="time">Estimated time</FormLabel>
                 <Input
-                  defaultValue={task.time}
+                  defaultValue={task.seconds}
                   type="number"
-                  {...register("time")}
+                  {...register("seconds")}
                   variant="outline"
                   placeholder="25"
                 />

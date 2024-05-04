@@ -53,7 +53,7 @@ export default function Layout({ children }: { children: ReactNode }) {
         </Flex>
       </Box>
 
-      <Box my={"2rem"} display={"flex"} justifyContent={"center"}>
+      <Box my={"1rem"} display={"flex"} justifyContent={"center"}>
         {children}
       </Box>
     </>

@@ -1,7 +1,7 @@
 export type TaskType = {
     id: string;
     title: string;
-    time?: number;
+    seconds: number;
     isRemoved: boolean;
     isFinish: boolean;
   };

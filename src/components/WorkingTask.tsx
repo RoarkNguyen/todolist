@@ -13,15 +13,20 @@ import { TaskType } from "../types";
 import EditTask from "./EditTask";
 
 export default function WorkingTask({ task }: { task: TaskType }) {
-  const { editTask, toggleRemoveTask, finishTask, setSelectedTask } =
-    useStore();
+  const {
+    editTask,
+    selectedTask,
+    toggleRemoveTask,
+    finishTask,
+    setSelectedTask,
+  } = useStore();
 
   return (
     <Flex
-      bg="#d54747"
+      bg={task.id === selectedTask?.id ? "#3469cd" : "#d54747"}
       justifyContent={"space-between"}
       w="100%"
-      p={4}
+      px={4}
       color="#fff"
       width={[300, 400]}
       align={"center"}
@@ -49,8 +54,9 @@ export default function WorkingTask({ task }: { task: TaskType }) {
           noOfLines={1}
           onClick={() => setSelectedTask(task)}
           flex={"1"}
+          py="1.5rem"
         >
-          {task.title}
+          {task.title} {task.seconds}
         </Text>
       </Flex>
       <Menu>

@@ -1,6 +1,6 @@
 import {
+  Box,
   Button,
-  Flex,
   FormLabel,
   Input,
   Modal,
@@ -19,7 +19,7 @@ import { generateUUID } from "../utils/uuid";
 
 type InputsAddTak = {
   title: string;
-  time: number;
+  seconds: number;
 };
 
 export default function AddTask({
@@ -36,7 +36,8 @@ export default function AddTask({
       isRemoved: false,
       isFinish: false,
       title: data.title,
-      time: data.time ? data.time : 25,
+      seconds: data.seconds ? Number(data.seconds) * 60 : 25 * 60,
+      // seconds: data.seconds ? data.seconds * 60 : 25 * 60,
     };
     saveTask(newTask);
     onClose();
@@ -45,14 +46,16 @@ export default function AddTask({
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
-    <Flex justify={"center"}>
+    <Box flex="1" w={"300px"}>
       <Button
+        w={"100%"}
+        variant="solid"
         onClick={() => {
           onOpen();
           reset();
         }}
-        width={[300, 400]}
-        mt={"0.5rem"}
+        // width={[300, 400]}
+
         h={"56px"}
         borderRadius={"6px"}
       >
@@ -71,12 +74,11 @@ export default function AddTask({
                 <Input
                   {...register("title", { required: true })}
                   variant="outline"
-                  placeholder="Breathe the clean air"
                 />
                 <FormLabel htmlFor="time">{`Estimated time (optional)`}</FormLabel>
                 <Input
                   type="number"
-                  {...register("time")}
+                  {...register("seconds")}
                   variant="outline"
                   placeholder="25"
                 />
@@ -99,6 +101,6 @@ export default function AddTask({
           </form>
         </ModalContent>
       </Modal>
-    </Flex>
+    </Box>
   );
 }
